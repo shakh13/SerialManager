@@ -1,18 +1,18 @@
-// Arduino RBD Serial Manager Library v1.0.0-alpha.3 - A simple interface for serial communication.
-// https://github.com/alextaujenis/RBD_SerialManager
-// Copyright 2016 Alex Taujenis
+// Arduino RBD Serial Manager Library v0.1 - A simple interface for serial communication.
+// https://github.com/shakh13/SerialManager
+// Shaxzod Saidmurodov
 // MIT License
 
-#ifndef RBD_SERIAL_MANAGER
-#define RBD_SERIAL_MANAGER
+#ifndef SERIAL_MANAGER
+#define SERIAL_MANAGER
 
 #include <Arduino.h>
+#include <SoftwareSerial.h>
 
-namespace RBD {
   class SerialManager {
     public:
       SerialManager();
-      void start();
+      void start(int pin_rx, int pin_tx);
       void setFlag(char value);
       void setDelimiter(char value);
       bool onReceive();
@@ -21,9 +21,12 @@ namespace RBD {
       String getParam();
       bool isCmd(String value);
       bool isParam(String value);
-      template <typename T> void print(T value){Serial.print(value);}
-      template <typename T> void println(T value){Serial.println(value);}
+      template <typename T> void print(T value){serial.print(value);}
+      template <typename T> void println(T value){serial.println(value);}
     private:
+      int _pin_rx;
+      int _pin_tx;
+      SoftwareSerial serial;
       int _position;
       char _char;
       char _flag      = '\n'; // you must set the serial monitor to include a newline with each command
@@ -31,6 +34,5 @@ namespace RBD {
       String _buffer  = "";
       String _value   = "";
   };
-}
 
 #endif
