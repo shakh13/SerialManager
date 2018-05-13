@@ -7,12 +7,11 @@
 #define SERIAL_MANAGER
 
 #include <Arduino.h>
-#include <SoftwareSerial.h>
 
   class SerialManager {
     public:
       SerialManager();
-      void start(int pin_rx, int pin_tx);
+      void start(int ser);
       void setFlag(char value);
       void setDelimiter(char value);
       bool onReceive();
@@ -21,12 +20,10 @@
       String getParam();
       bool isCmd(String value);
       bool isParam(String value);
-      template <typename T> void print(T value){serial.print(value);}
-      template <typename T> void println(T value){serial.println(value);}
+      template <typename T> void print(T value){if (_serial == 0) Serial.print(value); else Serial1.print(value);}
+      template <typename T> void println(T value){if (_serial == 0) Serial.println(value); else Serial1.println(value);}
     private:
-      int _pin_rx;
-      int _pin_tx;
-      SoftwareSerial serial;
+      int _serial;
       int _position;
       char _char;
       char _flag      = '\n'; // you must set the serial monitor to include a newline with each command
