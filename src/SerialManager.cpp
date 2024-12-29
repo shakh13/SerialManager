@@ -7,17 +7,11 @@
 #include <SerialManager.h> // https://github.com/shakh13/SerialManager
 
   SerialManager::SerialManager() {}
-  void SerialManager::start(int ser) {
-    _serial = ser;
-	if (ser == 0)
+  void SerialManager::start() {
 		Serial.begin(115200);
-	else
-		Serial1.begin(115200);
   }
 
   bool SerialManager::onReceive() {
-    if (_serial == 0){
-		
 		if(Serial.available()) {
 		  _char = char(Serial.read());
 
@@ -34,25 +28,6 @@
 		else {
 		  return false;
 		}
-	}
-	else {
-		if(Serial1.available()) {
-		  _char = char(Serial1.read());
-
-		  if(_char == _flag) {
-			_value  = _buffer;
-			_buffer = "";
-			return true;
-		  }
-		  else {
-			_buffer += _char;
-			return false;
-		  }
-		}
-		else {
-		  return false;
-		}
-	}
   }
 
   String SerialManager::getValue() {

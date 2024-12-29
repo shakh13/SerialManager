@@ -11,7 +11,7 @@
   class SerialManager {
     public:
       SerialManager();
-      void start(int ser);
+      void start();
       void setFlag(char value);
       void setDelimiter(char value);
       bool onReceive();
@@ -20,10 +20,9 @@
       String getParam();
       bool isCmd(String value);
       bool isParam(String value);
-      template <typename T> void print(T value){if (_serial == 0) Serial.print(value); else Serial1.print(value);}
-      template <typename T> void println(T value){if (_serial == 0) Serial.println(value); else Serial1.println(value);}
+      template <typename T> void print(T value){Serial.print(value);}
+      template <typename T> void println(T value){Serial.println(value); }
     private:
-      int _serial;
       int _position;
       char _char;
       char _flag      = '\n'; // you must set the serial monitor to include a newline with each command
